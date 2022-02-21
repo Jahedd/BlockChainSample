@@ -1,15 +1,25 @@
 {
-  "name": "block-chain-sample",
-  "version": "0.0.0",
-  "description": "BlockChainSample",
+  "name": "BlockChainSample",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/app.js",
   "scripts": {
+    "start": "tsc && node dist/app.js",
+    "lint": "eslint . --ext .ts",
     "test": "mocha"
   },
-  "main": "app.js",
-  "author": {
-    "name": ""
-  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "devDependencies": {
-    "mocha": "^9.2.0"
+    "@types/express": "^4.17.1",
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "typescript": "^4.5.5"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "secp256k1": "^4.0.3"
   }
 }
