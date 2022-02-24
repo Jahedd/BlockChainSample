@@ -17,20 +17,18 @@ export default class Transaction {
     this.timeStamp = Date.now();
     this.signature = [];
   }
-  getHash(): string {
-    return SHA256(
-      this.fromAddress + this.toAddress + this.amount + this.timeStamp
-    );
-  }
-  signTransaction(secretKey: string): void {
+  private getHash = () =>
+    SHA256(this.fromAddress + this.toAddress + this.amount + this.timeStamp);
+
+  signTransaction = (secretKey: string) => {
     const publicKey = secp256k1.publicKeyCreate(secretKey);
     if (publicKey == this.fromAddress) {
       const txHash = this.getHash();
       this.signature = secp256k1.ecdsaSign(txHash, secretKey);
     }
-  }
+  };
 
-  isValid(): boolean {
+  isValid = () => {
     if (this.fromAddress == "System") return true;
     if (this.signature == null || this.signature.length == 0) {
       return false;
@@ -41,5 +39,5 @@ export default class Transaction {
       this.getHash(),
       this.fromAddress
     );
-  }
+  };
 }
