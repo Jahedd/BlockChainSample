@@ -8,32 +8,33 @@ export default class Block {
   timestamp: number;
   transactions: Transaction[];
   nonce: number;
-  prevHash: string;
+  previousHash: string;
   hash: string;
   constructor(timestamp: number, transactions: Transaction[], prevHash = "") {
     this.timestamp = timestamp;
     this.transactions = transactions;
     this.nonce = 0;
-    this.prevHash = prevHash;
-    this.hash = "";
+    this.previousHash = prevHash;
+    this.hash = this.calculateHash();
   }
 
-  getHash(): string {
-    return SHA256(
+  calculateHash = () =>
+    SHA256(
       this.timestamp +
-        this.prevHash +
+        this.previousHash +
         this.nonce +
         JSON.stringify(this.transactions)
     );
-  }
 
-  mineBlock(difficulty: number): void {
-    while (this.hash.substring(0, difficulty) != "".padEnd(difficulty, "0")) {
+  mineBlock = (difficulty: number) => {
+    while (
+      this.hash.substring(0, difficulty) !== Array(difficulty + 1).join("0")
+    ) {
       this.nonce++;
-      this.hash = this.getHash();
+      this.hash = this.calculateHash();
     }
     console.log("Block successfully mined: " + this.hash);
-  }
+  };
 
   hasValidTransactions = () =>
     this.transactions.every((transaction) => transaction.isValid());
